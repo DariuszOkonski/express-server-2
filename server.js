@@ -119,6 +119,10 @@ app.delete('/testimonials/:id', (req, res) => {
   res.json({ message: 'OK' });
 });
 
+app.use((req, res) => {
+  res.status(404).json({ message: 'Not found...' });
+});
+
 // Start server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

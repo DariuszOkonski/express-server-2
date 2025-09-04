@@ -10,9 +10,9 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(cors());
 
 // Routes
-app.use('/testimonials', testimonialsRoutes);
-app.use('/concerts', concertsRoutes);
-app.use('/seats', seatsRoutes);
+app.use('/api/testimonials', testimonialsRoutes);
+app.use('/api/concerts', concertsRoutes);
+app.use('/api/seats', seatsRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found...' });

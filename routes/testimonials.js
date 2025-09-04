@@ -4,24 +4,24 @@ const router = express.Router();
 let db = require('../db');
 
 router.get('/', (req, res) => {
-  res.json({ data: db });
+  res.json({ data: db.testimonials });
 });
 
 router.get('/random', (req, res) => {
-  const dbLength = db.length;
+  const dbLength = db.testimonials.length;
 
   if (dbLength === 0) {
     return res.status(404).json({ data: 'no elements in database' });
   }
 
-  const testimonial = db[Math.floor(Math.random() * dbLength)];
+  const testimonial = db.testimonials[Math.floor(Math.random() * dbLength)];
 
   res.json({ data: testimonial });
 });
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
-  const testimonial = db.find((item) => item.id == id);
+  const testimonial = db.testimonials.find((item) => item.id == id);
 
   if (testimonial) {
     return res.json({ data: testimonial });
@@ -41,7 +41,7 @@ router.post('/', (req, res) => {
 
   const { author, text } = req.body;
 
-  db.push({ id: uuidv4(), author, text });
+  db.testimonials.push({ id: uuidv4(), author, text });
 
   res.json({ message: 'OK' });
 });
@@ -53,7 +53,7 @@ router.put('/:id', (req, res) => {
 
   const { id } = req.params;
 
-  const testimonial = db.find((item) => item.id === id);
+  const testimonial = db.testimonials.find((item) => item.id === id);
 
   if (!testimonial) {
     return res
@@ -69,7 +69,7 @@ router.put('/:id', (req, res) => {
     testimonial.text = req.query.text;
   }
 
-  db = db.map((item) => {
+  db.testimonials = db.testimonials.map((item) => {
     if (item.id === id) {
       return testimonial;
     }
@@ -82,7 +82,7 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const { id } = req.params;
 
-  const testimonial = db.find((item) => item.id === id);
+  const testimonial = db.testimonials.find((item) => item.id === id);
 
   if (!testimonial) {
     return res
@@ -90,7 +90,7 @@ router.delete('/:id', (req, res) => {
       .json({ message: 'this element does not exists in database' });
   }
 
-  db = db.filter((item) => item.id !== id);
+  db.testimonials = db.testimonials.filter((item) => item.id !== id);
 
   res.json({ message: 'OK' });
 });

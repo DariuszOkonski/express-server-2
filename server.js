@@ -35,7 +35,7 @@ app.get('/testimonials/random', (req, res) => {
   const dbLength = db.length;
 
   if (dbLength === 0) {
-    return res.json({ data: 'no elements in database' });
+    return res.status(404).json({ data: 'no elements in database' });
   }
 
   const testimonial = db[Math.floor(Math.random() * dbLength)];
@@ -50,17 +50,17 @@ app.get('/testimonials/:id', (req, res) => {
   if (testimonial) {
     return res.json({ data: testimonial });
   } else {
-    return res.json({ data: 'not found' });
+    return res.status(404).json({ message: 'not found' });
   }
 });
 
 app.post('/testimonials', (req, res) => {
   if (!req.body) {
-    return res.json({ message: 'missing all data' });
+    return res.status(400).json({ message: 'missing all data' });
   }
 
   if (!req.body.author || !req.body.text) {
-    return res.json({ message: 'missing data' });
+    return res.status(400).json({ message: 'missing data' });
   }
 
   const { author, text } = req.body;
@@ -72,7 +72,7 @@ app.post('/testimonials', (req, res) => {
 
 app.put('/testimonials/:id', (req, res) => {
   if (Object.keys(req.query).length === 0) {
-    return res.json({ message: 'missing data to update' });
+    return res.status(400).json({ message: 'missing data to update' });
   }
 
   const { id } = req.params;
@@ -80,7 +80,9 @@ app.put('/testimonials/:id', (req, res) => {
   const testimonial = db.find((item) => item.id === id);
 
   if (!testimonial) {
-    return res.json({ message: 'this element does not exists in database' });
+    return res
+      .status(404)
+      .json({ message: 'this element does not exists in database' });
   }
 
   if (req.query.author) {
@@ -107,7 +109,9 @@ app.delete('/testimonials/:id', (req, res) => {
   const testimonial = db.find((item) => item.id === id);
 
   if (!testimonial) {
-    return res.json({ message: 'this element does not exists in database' });
+    return res
+      .status(404)
+      .json({ message: 'this element does not exists in database' });
   }
 
   db = db.filter((item) => item.id !== id);

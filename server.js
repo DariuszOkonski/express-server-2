@@ -102,7 +102,17 @@ app.put('/testimonials/:id', (req, res) => {
 });
 
 app.delete('/testimonials/:id', (req, res) => {
-  res.send('delete testimonials/id');
+  const { id } = req.params;
+
+  const testimonial = db.find((item) => item.id === id);
+
+  if (!testimonial) {
+    return res.json({ message: 'this element does not exists in database' });
+  }
+
+  db = db.filter((item) => item.id !== id);
+
+  res.json({ message: 'OK' });
 });
 
 // Start server

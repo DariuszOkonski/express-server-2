@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: false }));
 // app.use(cors());
 
 // fake database
-const db = [
+let db = [
   {
     id: '43aaa7b2-6f32-416b-bef3-1d44fa6f781f',
     author: 'John Doe',
@@ -76,13 +76,29 @@ app.put('/testimonials/:id', (req, res) => {
   }
 
   const { id } = req.params;
-  // finished on PUT Request
-  // https://kodilla.com/pl/bootcamp-module/1582/276/9102#submodule-1120
 
-  console.log(id);
-  console.log(req.query);
+  const testimonial = db.find((item) => item.id === id);
 
-  res.send('put testimonials/id');
+  if (!testimonial) {
+    return res.json({ message: 'this element does not exists in database' });
+  }
+
+  if (req.query.author) {
+    testimonial.author = req.query.author;
+  }
+
+  if (req.query.text) {
+    testimonial.text = req.query.text;
+  }
+
+  db = db.map((item) => {
+    if (item.id === id) {
+      return testimonial;
+    }
+    return item;
+  });
+
+  res.json({ message: 'OK' });
 });
 
 app.delete('/testimonials/:id', (req, res) => {

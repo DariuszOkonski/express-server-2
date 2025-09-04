@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const testimonialsRoutes = require('./routes/testimonials');
+const concertsRoutes = require('./routes/concerts');
 
 // Middleware
 app.use(express.json());
@@ -9,6 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use('/testimonials', testimonialsRoutes);
+app.use('/concerts', concertsRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found...' });

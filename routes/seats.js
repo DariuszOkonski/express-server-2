@@ -19,12 +19,20 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  console.log('POST: ', req.body);
+
   if (!req.body) {
     return res.status(400).json({ message: 'missing all data' });
   }
 
   if (!req.body.day || !req.body.seat || !req.body.client || !req.body.email) {
     return res.status(400).json({ message: 'missing some data' });
+  }
+
+  const isAlreadyTaken = true;
+
+  if (isAlreadyTaken) {
+    return res.status(409).json({ message: 'The slot is already taken...' });
   }
 
   const { day, seat, client, email } = req.body;

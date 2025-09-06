@@ -19,10 +19,9 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
     dispatch(loadSeatsRequest());
   }, [dispatch]);
 
-  // TODO: check every 2 min if seat is available
   useEffect(() => {
-    const intervalIndex = setInterval(() => {
-      dispatch(loadSeatsRequest());
+    const intervalIndex = setInterval(async () => {
+      await dispatch(loadSeatsRequest());
     }, TIME_STAMP);
 
     return () => clearInterval(intervalIndex);

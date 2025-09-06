@@ -23,7 +23,6 @@ import SeatChooser from './../SeatChooser/SeatChooser';
 const OrderTicketForm = () => {
   const dispatch = useDispatch();
   const requests = useSelector(getRequests);
-  console.log(requests);
 
   const [order, setOrder] = useState({
     client: '',
@@ -51,18 +50,16 @@ const OrderTicketForm = () => {
   const submitForm = async (e) => {
     e.preventDefault();
 
-    // TODO: check load seats before submit
-    dispatch(loadSeatsRequest);
-    console.log('order: ', order);
-
     if (order.client && order.email && order.day && order.seat) {
-      dispatch(addSeatRequest(order));
+      await dispatch(loadSeatsRequest());
+      await dispatch(addSeatRequest(order));
       setOrder({
         client: '',
         email: '',
         day: 1,
         seat: '',
       });
+      await dispatch(loadSeatsRequest());
       setIsError(false);
     } else {
       setIsError(true);

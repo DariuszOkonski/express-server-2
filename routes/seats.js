@@ -27,11 +27,11 @@ router.post('/', (req, res) => {
     return res.status(400).json({ message: 'missing some data' });
   }
 
-  const isAlreadyTaken = db.seats.some(
+  const isSeatAlreadyTaken = db.seats.some(
     ({ seat, day }) => seat === req.body.seat && day === req.body.day
   );
 
-  if (isAlreadyTaken) {
+  if (isSeatAlreadyTaken) {
     return res.status(409).json({ message: 'The slot is already taken...' });
   }
 

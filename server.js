@@ -19,11 +19,7 @@ app.use('/api/testimonials', testimonialsRoutes);
 app.use('/api/concerts', concertsRoutes);
 app.use('/api/seats', seatsRoutes);
 
-app.use((req, res) => {
-  res.status(404).json({ message: 'Not found...' });
-});
-
-app.get('*', (req, res) => {
+app.get('/{*any}', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
 

@@ -22,10 +22,11 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   // TODO: check every 2 min if seat is available
   useEffect(() => {
     const intervalIndex = setInterval(() => {
-      loadSeatsRequest();
+      dispatch(loadSeatsRequest());
     }, TIME_STAMP);
 
     return () => clearInterval(intervalIndex);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const isTaken = (seatId) => {

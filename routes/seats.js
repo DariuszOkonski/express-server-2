@@ -19,8 +19,6 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  console.log('POST: ', req.body);
-
   if (!req.body) {
     return res.status(400).json({ message: 'missing all data' });
   }
@@ -29,7 +27,9 @@ router.post('/', (req, res) => {
     return res.status(400).json({ message: 'missing some data' });
   }
 
-  const isAlreadyTaken = true;
+  const isAlreadyTaken = db.seats.some(
+    ({ seat, day }) => seat === req.body.seat && day === req.body.day
+  );
 
   if (isAlreadyTaken) {
     return res.status(409).json({ message: 'The slot is already taken...' });

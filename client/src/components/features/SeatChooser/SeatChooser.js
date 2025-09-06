@@ -8,6 +8,8 @@ import {
 } from '../../../redux/seatsRedux';
 import './SeatChooser.scss';
 
+const TIME_STAMP = 120 * 1000;
+
 const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   const dispatch = useDispatch();
   const seats = useSelector(getSeats);
@@ -20,9 +22,8 @@ const SeatChooser = ({ chosenDay, chosenSeat, updateSeat }) => {
   // TODO: check every 2 min if seat is available
   useEffect(() => {
     const intervalIndex = setInterval(() => {
-      console.log('check for seats');
       loadSeatsRequest();
-    }, 120 * 1000);
+    }, TIME_STAMP);
 
     return () => clearInterval(intervalIndex);
   }, []);
